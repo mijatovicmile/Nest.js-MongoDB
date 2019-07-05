@@ -33,6 +33,7 @@
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
     "@types/supertest": "^2.0.7",
+    "braces": "^3.0.2",
     "concurrently": "^4.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
