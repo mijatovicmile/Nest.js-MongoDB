@@ -14,19 +14,29 @@ export class ProductsController{
 
     // Add product to the database
     @Post()
-    addProduct(
+    async addProduct(
         @Body('title') productTitle: string, 
         @Body('description') productDescription: string, 
         @Body('price') productPrice: number
     ) {
-        const generatedId = this.productService.addProduct(productTitle, productDescription, productPrice);
+        const generatedId = await this.productService.addProduct(
+            productTitle, 
+            productDescription, 
+            productPrice
+        );
         return { id: generatedId };
     }
 
     // Get all products from database
     @Get()
-    getProducts() {
-        return this.productService.getProducts();
+    async getProducts() {
+        const products = await this.productService.getProducts();
+        return products.map((prod) => ({
+            id: prod.id,
+            title: prod.title,
+            description: prod.description,
+            price: prod.price
+        }));
     }
 
     // Get single product from database
@@ -37,20 +47,20 @@ export class ProductsController{
 
     // Update the product
     @Patch(':id')
-    updateProduct(
+    async updateProduct(
         @Param('id') prodId: string,        
         @Body('title') productTitle: string, 
         @Body('description') productDescription: string, 
         @Body('price') productPrice: number
     ) {
-        this.productService.updateProduct(prodId, productTitle, productDescription, productPrice);
+        await this.productService.updateProduct(prodId, productTitle, productDescription, productPrice);
         return null;
     }
 
     // Delete the product
     @Delete(':id')
-    deleteProduct(@Param('id') prodId: string) {
-        this.productService.deleteProduct(prodId);
+    async deleteProduct(@Param('id') prodId: string) {
+        await this.productService.deleteProduct(prodId);
         return null;
     }
 }
